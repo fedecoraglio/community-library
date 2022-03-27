@@ -1,0 +1,85 @@
+<div class="flex h-screen">
+    <div class="m-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card bg-white">
+        <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+            <!--div class="w-12">
+                <img src="assets/images/logo/logo.svg">
+            </div-->
+
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">
+                Ingresar
+            </div>
+
+            <form
+                class="mt-8"
+                [formGroup]="signInForm"
+            >
+                <div class="mb-8">
+                    <!-- Email field -->
+                    <mat-form-field class="w-full">
+                        <mat-label>
+                            {{'text_input_email_sign_in_auth' | transloco}}
+                        </mat-label>
+                        <input
+                            id="email"
+                            matInput
+                            [formControlName]="'email'"
+                        >
+                        <mat-error *ngIf="signInForm.get('email').hasError('required')">
+                            {{'text_required_email_sign_in_auth' | transloco}}
+                        </mat-error>
+                        <mat-error *ngIf="signInForm.get('email').hasError('invalidEmail')">
+                            {{'text_valid_email_sign_in_auth' | transloco}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>
+                            {{'text_input_pass_sign_in_auth' | transloco}}
+                        </mat-label>
+                        <input
+                            id="password"
+                            matInput
+                            type="password"
+                            [formControlName]="'password'"
+                            #passwordField
+                        >
+                        <button
+                            mat-icon-button
+                            type="button"
+                            (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                            matSuffix
+                        >
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordField.type === 'password'"
+                            >eye</mat-icon>
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordField.type === 'text'"
+                            >eye</mat-icon>
+                        </button>
+                        <mat-error>
+                            {{'text_required_pass_sign_in_auth' | transloco}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <button
+                    class="w-full mt-6 bg-gray-900 text-white"
+                    mat-flat-button
+                    [disabled]="signInForm.invalid || signInForm.disabled"
+                    (click)="signIn()"
+                >
+                    <span *ngIf="!signInForm.disabled">
+                        {{'title_sign_in_auth' | transloco}}
+                    </span>
+                    <mat-progress-spinner
+                        *ngIf="signInForm.disabled"
+                        [diameter]="30"
+                        [mode]="'indeterminate'"
+                    ></mat-progress-spinner>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="flex flex-col w-full">
+    <div class="relative flex flex-col flex-auto items-center px-12">
+      <!-- HEADER -->
+      <div class="flex flex-auto items-end w-full mt-8">
+        <div class="text-3xl font-extrabold truncate">{{!createMode ? user.name : ('people.text_create_user' | transloco)}}</div>
+      </div>
+  
+      <!-- FORM -->
+      <div class="w-full max-w-3xl">
+        <form [formGroup]="userForm">
+          <div class="mt-8">
+            <span class="text-xl font-bold leading-8">
+              {{'people.text_personal_info_people' | transloco}}
+            </span>
+            <div class="text-md text-secondary">
+              {{!createMode ? ('people.text_personal_info_detail_people' | transloco) : ('people.text_personal_info_create_user' | transloco)}}
+            </div>
+  
+            <mat-form-field class="fuse-mat-no-subscript w-full mt-6">
+              <mat-label class="required">
+                {{'people.text_input_name_people' | transloco}}
+              </mat-label>
+              <input
+                matInput
+                [formControlName]="'name'"
+                [placeholder]="'people.text_input_name_people' | transloco"
+                [spellcheck]="false">
+            </mat-form-field>
+          </div>
+  
+          <div class="mt-8">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+              <mat-label class="required">
+                {{'people.text_input_email_people' | transloco}}
+              </mat-label>
+              <input
+                matInput
+                [formControlName]="'email'"
+                [placeholder]="'people.text_input_email_people' | transloco"
+                [autocomplete]="'new-email'"
+                [spellcheck]="false">
+            </mat-form-field>
+          </div>
+    
+          <div class="mt-8">
+            <mat-form-field class="fuse-mat-no-subscript w-full">
+              <mat-label [ngClass]="!createMode ? '' : 'required'">{{'people.text_input_password_people' | transloco}}</mat-label>
+              <input
+                matInput
+                [formControlName]="'password'"
+                [placeholder]="'people.placeholder_input_password_people' | transloco"
+                [autocomplete]="'new-password'"
+                [spellcheck]="false"
+                [type]="'password'"
+              >
+            </mat-form-field>
+          </div>            
+  
+          <!-- Actions -->
+          <div class="flex items-center justify-center pt-8 pb-12">
+            <div class="pr-4">
+              <button mat-stroked-button [color]="'warn'" (click)="navigateToUsers()">
+                Cancelar
+              </button>
+            </div>            
+            <button
+              mat-stroked-button
+              (click)="!createMode ? updateUser() : createUser()"
+              [disabled]="userForm.invalid"
+              [matTooltip]="!createMode ? ('people.btn_save_people' | transloco) : ('people.btn_create_user' | transloco)"
+            >
+              {{!createMode ? ('people.btn_save_people' | transloco) : ('people.btn_create_user' | transloco) }}
+          </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

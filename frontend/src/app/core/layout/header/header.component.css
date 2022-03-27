@@ -1,0 +1,12 @@
+ul li {
+  list-style: none;
+}
+
+.header-icon {
+  color: #ffffff;
+}
+
+button {
+  border: 0;
+  outline: none;
+}

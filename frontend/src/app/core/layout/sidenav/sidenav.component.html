@@ -1,0 +1,25 @@
+<mat-nav-list class="bg-gray-900" style="height: 100%;">
+  <div class="flex flex-row justify-center">
+    LOGO
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="flex flex-col mt-8">    
+    <ng-container *ngFor="let nav of navigations">
+      <a class="mb-5" routerLink="/{{ nav.link }}" >
+        <div class="flex flex-col items-center">
+          <div class="pl-2"><mat-icon class="text-white text-base">{{ nav.icon }}</mat-icon></div>
+          <div class="text-white text-xs">{{ nav.text }}</div>
+        </div>
+      </a>
+    </ng-container>
+  
+    <a (click)="logout()">
+      <div class="flex flex-col items-center">
+        <div class="pl-2"><mat-icon class="text-white text-base">logout</mat-icon></div>
+        <div class="text-white text-xs">Salir</div>
+      </div>
+    </a>
+  </div>
+  
+</mat-nav-list>

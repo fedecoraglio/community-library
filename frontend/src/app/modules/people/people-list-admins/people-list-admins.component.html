@@ -1,0 +1,64 @@
+<div class="flex flex-row justify-between">
+  <div>
+    <p class="text-2xl font-bold text-gray-900">Usuarios</p>
+  </div>
+  <div>
+    <button class="ml-4" 
+        mat-stroked-button
+        (click)='navigateToCreateUser()'>
+    <mat-icon class="sm:hidden">add</mat-icon>
+    <span class="ml-2 mr-1 hidden sm:inline">
+        {{'people.btn_create_user_people' | transloco}}
+    </span>
+    </button>
+  </div>
+</div>
+<div class="flex flex-col w-full">  
+  <table mat-table [dataSource]="people$ | async" class="w-full">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>
+        {{'people.table_cell_admin_name_people' | transloco}}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let user"
+        [attr.data-label]="'people.table_cell_admin_name_people' | transloco">
+        {{user.name}}
+        <mat-icon *ngIf="user.id === (currentUserId$ | async)"  [color]="'primary'"
+          [matTooltip]="'You'" class="icon-size-3"></mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>
+        {{'people.table_cell_admin_email_people' | transloco}}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let user"
+        [attr.data-label]="'people.table_cell_admin_email_people' | transloco">
+        {{user.email}}
+      </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef>{{'people.table_cell_users_action_people' | transloco}}</th>
+      <td mat-cell *matCellDef="let row" [attr.data-label]="edit" >
+        <button mat-icon-button (click)="navigateToEditUser(row.id)" class="cursor-pointer">
+          <mat-icon class="icon-size-5">edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div class="w-full flex justify-end bg-white">
+    <mat-paginator [pageSizeOptions]="[5, 60, 200]"
+              showFirstLastButtons
+              [length]="peopleTotal$ | async"
+              (page)="onPageChange()">
+    </mat-paginator>
+  </div>
+</div>

@@ -16,6 +16,7 @@ import { HasPermissionsGuard } from './features/user/permissions/has-permissions
 import { UserModule } from './features/user/user.module';
 import { AuthValidateMiddleware } from './features/auth/auth-validate.middleware';
 import { AppService } from './app.service';
+import { MemberModule } from './features/member/member.module';
 
 console.log(`./env/${process.env.NODE_ENV}.env.json`);
 @Module({
@@ -40,6 +41,7 @@ console.log(`./env/${process.env.NODE_ENV}.env.json`);
       inject: [ConfigService],
     }),
     UserModule,
+    MemberModule,
   ],
   controllers: [AppController],
   providers: [

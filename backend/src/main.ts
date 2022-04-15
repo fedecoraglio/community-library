@@ -11,7 +11,9 @@ import { AppModule } from './app.module';
 import { ErrorCode } from './core/errors/error-code';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'debug', 'log'],
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({

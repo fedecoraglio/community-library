@@ -14,8 +14,14 @@ export class SidenavComponent implements OnInit {
     {
       order: 1,
       link: 'people',
-      icon: 'account_circle',
+      icon: 'supervised_user_circle',
       text: 'Usuarios',
+    },
+    {
+      order: 2,
+      link: 'members',
+      icon: 'account_circle',
+      text: 'Socios',
     },
   ];
   constructor(

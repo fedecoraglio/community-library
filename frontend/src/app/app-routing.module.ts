@@ -35,6 +35,13 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'members',
+    loadChildren: () =>
+      import('./modules/member/member.module').then((m) => m.MemberModule),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,8 @@
+{
+    "title": "Socios",
+    "btn_create_member": "Nuevo Socio",
+    "table_cell_admin_name_member": "Nombre",
+    "table_cell_admin_email_member": "Email",
+    "table_cell_action_member": "Acciones",
+    "table_cell_empty": "No se encontraron socios"
+}

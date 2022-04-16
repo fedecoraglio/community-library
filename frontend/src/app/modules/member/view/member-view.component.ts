@@ -11,6 +11,7 @@ import { CreateMemberRequestDto, MemberDto } from '../member.dtos';
 import { MemberService } from '../member.service';
 import { Gender } from '../../../core/user/gender';
 import { getEnumValues } from '../../../core/util/get-enum-values';
+import { LoaderService } from '../../../core/loader/loader.service';
 
 @Component({
   selector: 'member-view',
@@ -18,7 +19,7 @@ import { getEnumValues } from '../../../core/util/get-enum-values';
   encapsulation: ViewEncapsulation.None,
 })
 export class MemberViewComponent {
-  member: MemberDto;
+  member: MemberDto & { id: string };
   memberForm: FormGroup;
   createMode = false;
   waitToProcess = false;
@@ -33,7 +34,8 @@ export class MemberViewComponent {
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly matSnackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly loaderService: LoaderService
   ) {}
 
   ngOnInit() {
@@ -96,44 +98,42 @@ export class MemberViewComponent {
   }
 
   updateMember() {
-    /**if (this.userForm.invalid) {
+    if (this.memberForm.invalid || this.waitToProcess) {
       return;
     }
-
-    let user = this.userForm.getRawValue() as UpdateUserRequestDto & {
+    this.loaderService.showLoading();
+    this.waitToProcess = true;
+    const member = this.memberForm.getRawValue() as MemberDto & {
       id: string;
     };
 
-    if (!this.userForm.get('password').value) {
-      const { password, ...rest } = user;
-
-      user = rest;
-    }
-
-    user = {
-      ...user,
-    };
-
-    this.peopleService
-      .updateUser(user.id, user)
+    this.memberService
+      .updateMember(this.member.id, member)
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe({
         next: () => {
-          this.router.navigate(['/people']);
+          this.matSnackBar.open(`El socio se guardo con éxito`, null, {
+            duration: 3000,
+          });
+          this.router.navigate(['/members']);
+          this.waitToProcess = false;
+          this.loaderService.hideLoading();
         },
         error: (response) => {
           this.matSnackBar.open(
-            `${this.translate('alert_error_updated_user_people')} ${
+            `${this.translate('alert_error_updated_member')} ${
               response?.error?.message ||
-              this.translate('text_unknown_error_people')
+              this.translate('text_unknown_error_member')
             }`,
             null,
             {
               duration: 4000,
             }
           );
+          this.waitToProcess = false;
+          this.loaderService.hideLoading();
         },
-      });**/
+      });
   }
 
   trackByFn(index: number, item: any) {
@@ -158,19 +158,20 @@ export class MemberViewComponent {
   }
 
   private setMemberEditMode() {
-    // Get the user
-    /**this.memberService.members$
-      .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((user: UserDto) => {
-        // Open the drawer in case it is closed
+    this.memberService.member$.pipe(takeUntil(this._unsubscribe$)).subscribe({
+      next: (member: MemberDto) => {
         this.member = {
-          ...user,
+          ...member,
         };
 
-        // Patch values to the form
         if (!this.createMode) {
-          this.userForm.patchValue(this.user);
+          this.memberForm.patchValue(this.member);
         }
-      });**/
+        this.loaderService.hideLoading();
+      },
+      error: () => {
+        this.loaderService.hideLoading();
+      },
+    });
   }
 }

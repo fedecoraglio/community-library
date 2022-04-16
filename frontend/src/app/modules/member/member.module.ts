@@ -22,11 +22,16 @@ import { MemberListComponent } from './list/member-list.component';
 import { MemberViewComponent } from './view/member-view.component';
 import { FormatGenderPipe } from '../../core/pipe/format-gender.pipe';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FormatActivePipe } from '../../core/pipe/format-active.pipe';
+import { MemberResolver, MemberSettingResolver } from './people.resolvers';
 
 const routes: Route[] = [
   {
     path: '',
     component: MemberComponent,
+    resolve: {
+      settings: MemberSettingResolver,
+    },
     children: [
       {
         path: '',
@@ -35,6 +40,13 @@ const routes: Route[] = [
       {
         path: 'create',
         component: MemberViewComponent,
+      },
+      {
+        path: ':id',
+        component: MemberViewComponent,
+        resolve: {
+          member: MemberResolver,
+        },
       },
     ],
   },
@@ -46,6 +58,7 @@ const routes: Route[] = [
     MemberListComponent,
     MemberViewComponent,
     FormatGenderPipe,
+    FormatActivePipe,
   ],
   imports: [
     CommonModule,
@@ -67,6 +80,9 @@ const routes: Route[] = [
     MatDatepickerModule,
     MatNativeDateModule,
   ],
-  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'member' }],
+  providers: [
+    { provide: TRANSLOCO_SCOPE, useValue: 'member' },
+    MemberSettingResolver,
+  ],
 })
 export class MemberModule {}

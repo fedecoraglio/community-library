@@ -7,10 +7,9 @@ import { Translation, TranslocoLoader } from '@ngneat/transloco';
   providedIn: 'root',
 })
 export class TranslocoHttpLoader implements TranslocoLoader {
-  constructor(private _httpClient: HttpClient) {}
+  constructor(private readonly _httpClient: HttpClient) {}
 
   getTranslation(lang: string): Observable<Translation> {
-    console.log('lang', lang);
     return this._httpClient.get<Translation>(`./assets/i18n/${lang}.json`);
   }
 }

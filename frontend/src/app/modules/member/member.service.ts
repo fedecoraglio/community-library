@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
@@ -9,14 +9,15 @@ import {
   GetMemberResponseDto,
   MemberDto,
 } from './member.dtos';
+import { query } from '@angular/animations';
 
 @Injectable({ providedIn: 'root' })
 export class MemberService {
   static LIMIT_PER_PAGE = 5;
 
-  private readonly _members$ = new ReplaySubject<MemberDto[]>(1);
-  private readonly _memberTotal$ = new ReplaySubject<number>(1);
-  private readonly _member$ = new ReplaySubject<MemberDto>(1);
+  private readonly _members$ = new BehaviorSubject<MemberDto[]>([]);
+  private readonly _memberTotal$ = new BehaviorSubject<number>(0);
+  private readonly _member$ = new BehaviorSubject<MemberDto>(null);
 
   get members$(): Observable<MemberDto[]> {
     return this._members$.asObservable();
@@ -26,20 +27,23 @@ export class MemberService {
     return this._memberTotal$.asObservable();
   }
 
-  get menber$(): Observable<MemberDto> {
+  get member$(): Observable<MemberDto> {
     return this._member$.asObservable();
   }
 
   constructor(private readonly http: HttpClient) {}
 
-  fetchMembers(query: GetMemberRequestDto): Observable<GetMemberResponseDto> {
+  fetchMembers(param: GetMemberRequestDto): Observable<GetMemberResponseDto> {
+    const option: any = {
+      page: param.page || 1,
+      pageSize: param.pageSize || MemberService.LIMIT_PER_PAGE,
+    };
+    if (param.query) {
+      option.query = param.query;
+    }
+    console.log(option);
     return this.http
-      .get<GetMemberResponseDto>('v1/members', {
-        params: {
-          page: query.page || 1,
-          pageSize: query.pageSize || MemberService.LIMIT_PER_PAGE,
-        },
-      })
+      .get<GetMemberResponseDto>('v1/members', { params: option })
       .pipe(
         tap((response) => {
           this._members$.next(response.members);
@@ -57,7 +61,10 @@ export class MemberService {
   }
 
   createMember(member: CreateMemberRequestDto): Observable<MemberDto> {
-    console.log('member', member);
     return this.http.post<MemberDto>(`v1/members`, member);
+  }
+
+  updateMember(id: string, member: Partial<MemberDto>): Observable<MemberDto> {
+    return this.http.put<MemberDto>(`v1/members/${id}`, member);
   }
 }

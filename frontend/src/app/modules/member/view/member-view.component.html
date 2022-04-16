@@ -130,7 +130,7 @@
           <button
             mat-stroked-button
             (click)="!createMode ? updateMember() : createMember()"
-            [disabled]="memberForm.invalid"
+            [disabled]="memberForm.invalid || waitToProcess"
             [matTooltip]="('member.btn_save_member' | transloco)"
           >
             {{('member.btn_save_member' | transloco)}}

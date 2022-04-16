@@ -35,8 +35,8 @@ export class PeopleDetailsComponent {
     private readonly userService: UserService,
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
-    public route: ActivatedRoute,
-    public location: Location,
+    public readonly route: ActivatedRoute,
+    public readonly location: Location,
     private readonly matSnackBar: MatSnackBar,
     private readonly translocoService: TranslocoService
   ) {}
@@ -87,7 +87,6 @@ export class PeopleDetailsComponent {
     this.peopleService.user$
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((user: UserDto) => {
-        // Open the drawer in case it is closed
         this.user = {
           ...user,
         };

@@ -15,7 +15,7 @@ export class MemberDto {
   @ApiProperty()
   address: string;
   @ApiProperty()
-  stateId: string;
+  phone: string;
   @ApiProperty()
   birthday: Date;
 

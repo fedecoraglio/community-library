@@ -27,9 +27,7 @@ export class SidenavComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router
-  ) {
-    console.log('pasa!!');
-  }
+  ) {}
 
   logout = () => {
     /**this.authService.signOut().subscribe(() => {

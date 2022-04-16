@@ -1,18 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User, UserDocument } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, LeanDocument, Model, Types } from 'mongoose';
-import { CreateUserRequestDto } from './dtos/create-user-request.dto';
-import { UpdateUserRequestDto } from './dtos/update-user-request.dto';
+import { LeanDocument, Model } from 'mongoose';
 import { hash } from 'bcrypt';
 
-import { UserDto } from './dtos/user.dto';
 import { GetUsersRequestDto } from './dtos/get-users-request.dto';
-import { UserRoleEnum } from './user-roles/user-role.enum';
 import { UserRepository } from './user.repository';
 import { PaginationOptions } from '../../core/pagination-options/pagination-options';
 import { ErrorCode } from '../../core/errors/error-code';
-
+import { CreateUserRequestDto } from './dtos/create-user-request.dto';
+import { UpdateUserRequestDto } from './dtos/update-user-request.dto';
 @Injectable()
 export class UserService {
   constructor(

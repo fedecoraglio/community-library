@@ -1,38 +1,63 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import {
+  takeUntil,
+  filter,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { MemberService } from '../member.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { MemberDto } from '../member.dtos';
+import { LoaderService } from '../../../core/loader/loader.service';
 
 @Component({
   selector: 'member-list',
   templateUrl: 'member-list.component.html',
 })
-export class MemberListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+export class MemberListComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   memberDataSource = new MatTableDataSource<MemberDto>([]);
-  readonly memberTotal$ = this.memberService.memberTotal$;
-  readonly displayedColumns = ['uid', 'name', 'email', 'phone', 'edit'];
+  memberTotal = 0;
+  readonly pageSizeOptions = [MemberService.LIMIT_PER_PAGE, 60, 200];
+  readonly searchInputControl: FormControl = new FormControl();
+  readonly displayedColumns = [
+    'uid',
+    'name',
+    'email',
+    'phone',
+    'active',
+    'edit',
+  ];
 
+  private searchValue: string | null;
   private readonly members$ = this.memberService.members$;
+  private readonly memberTotal$ = this.memberService.memberTotal$;
   private readonly _unsubscribe$ = new Subject<any>();
 
   constructor(
+    private readonly loaderService: LoaderService,
     private readonly memberService: MemberService,
     private readonly router: Router
   ) {}
 
   ngOnInit() {
+    this.configSearch();
+    this.searchValue = null;
+    this.loaderService.showLoading();
     this.loadMembers();
   }
 
@@ -41,16 +66,19 @@ export class MemberListComponent implements OnInit, OnDestroy {
     this._unsubscribe$.complete();
   }
 
-  onPageChange() {
-    const pageSize = this.paginator.pageSize || MemberService.LIMIT_PER_PAGE;
-    const page = this.paginator.pageIndex + 1;
-
-    this.memberService
-      .fetchMembers({
-        pageSize: pageSize,
-        page,
-      })
-      .pipe(takeUntil(this._unsubscribe$))
+  ngAfterViewInit() {
+    this.memberDataSource.paginator = this.paginator;
+    this.paginator.page
+      .pipe(
+        takeUntil(this._unsubscribe$),
+        switchMap(() => {
+          return this.memberService.fetchMembers({
+            page: this.paginator.pageIndex + 1,
+            pageSize: this.paginator.pageSize,
+            query: this.searchValue,
+          });
+        })
+      )
       .subscribe(() => {});
   }
 
@@ -67,16 +95,53 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   private loadMembers() {
-    this.memberDataSource.paginator = this.paginator;
-    this.members$
+    this.memberTotal$
       .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((members: MemberDto[]) => {
-        this.memberDataSource = new MatTableDataSource<MemberDto>(members);
+      .subscribe((total: number) => {
+        this.memberTotal = total;
       });
+
+    this.members$.pipe(takeUntil(this._unsubscribe$)).subscribe({
+      next: (members: MemberDto[]) => {
+        this.memberDataSource = new MatTableDataSource<MemberDto>(members);
+        this.loaderService.hideLoading();
+      },
+      error: () => {
+        this.loaderService.hideLoading();
+      },
+    });
 
     this.memberService
       .fetchMembers({ page: 1, pageSize: MemberService.LIMIT_PER_PAGE })
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe(() => {});
+  }
+
+  private configSearch() {
+    this.searchInputControl.valueChanges
+      .pipe(
+        filter<string>((query) => query.length > 0 || query.length === 0),
+        debounceTime(200),
+        distinctUntilChanged(),
+        takeUntil(this._unsubscribe$),
+        tap(() => (this.paginator.pageIndex = 0)),
+        switchMap((query) => {
+          this.searchValue = query;
+          this.loaderService.showLoading();
+          return this.memberService.fetchMembers({
+            page: this.paginator.pageIndex,
+            pageSize: this.paginator.pageSize,
+            query,
+          });
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.loaderService.hideLoading();
+        },
+        error: () => {
+          this.loaderService.hideLoading();
+        },
+      });
   }
 }

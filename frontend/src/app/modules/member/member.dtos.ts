@@ -1,5 +1,3 @@
-import { UserDto } from '../../core/user/user.dtos';
-
 export type CreateMemberRequestDto = Readonly<{
   name: string;
   gender: string;
@@ -11,6 +9,7 @@ export type CreateMemberRequestDto = Readonly<{
 export type GetMemberRequestDto = Readonly<{
   page?: number;
   pageSize?: number;
+  query?: string | null;
 }>;
 
 export type GetMemberResponseDto = Readonly<{

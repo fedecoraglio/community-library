@@ -5,6 +5,7 @@
     "table_cell_email_member": "Email",
     "table_cell_id_member": "ID",
     "table_cell_phone_member": "Teléfono",
+    "table_cell_active_member": "Activo",
     "table_cell_action_member": "Acciones",
     "table_cell_empty": "No se encontraron socios",
     "alert_error_updated_member": "Error al guardar el socio:",
@@ -19,5 +20,6 @@
     "text_input_address_member": "Dirección",
     "text_input_birthday_member": "Fecha de Nacimiento",
     "text_input_phone_member": "Teléfono",
+    "text_input_search_member": "Buscar por id, nombre, email o teléfono",
     "btn_save_member": "Aceptar"
 }

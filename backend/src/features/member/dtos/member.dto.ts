@@ -15,17 +15,11 @@ export class MemberDto {
   @ApiProperty()
   address: string;
   @ApiProperty()
-  city: string;
-  @ApiProperty()
-  cityId: string;
-  @ApiProperty()
-  state: string;
-  @ApiProperty()
   stateId: string;
   @ApiProperty()
   birthday: Date;
 
-  constructor(user: LeanDocument<MemberDocument>) {
-    Object.assign(this, user);
+  constructor(member: LeanDocument<MemberDocument>) {
+    Object.assign(this, member);
   }
 }

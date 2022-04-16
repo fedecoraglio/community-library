@@ -48,25 +48,7 @@ export class Member {
     type: MongooseSchema.Types.String,
     required: false,
   })
-  city: string;
-
-  @Prop({
-    type: MongooseSchema.Types.String,
-    required: false,
-  })
-  cityId: string;
-
-  @Prop({
-    type: MongooseSchema.Types.String,
-    required: false,
-  })
-  state: string;
-
-  @Prop({
-    type: MongooseSchema.Types.String,
-    required: false,
-  })
-  stateId: string;
+  phone: string;
 
   @Prop({
     type: MongooseSchema.Types.Date,

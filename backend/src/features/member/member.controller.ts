@@ -40,10 +40,10 @@ export class MemberController {
   }
 
   @Post()
-  async create(@Body() user: CreateMemberRequestDto): Promise<MemberDto> {
-    const dbUser = await this.memberService.create(user);
+  async create(@Body() member: CreateMemberRequestDto): Promise<MemberDto> {
+    const dbMember = await this.memberService.create(member);
 
-    return new MemberDto(dbUser);
+    return new MemberDto(dbMember);
   }
 
   @Get('/:id')

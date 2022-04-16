@@ -20,17 +20,13 @@ export class CreateMemberRequestDto {
 
   @ApiProperty()
   @IsOptional()
-  city: string;
+  phone: string;
 
   @ApiProperty()
   @IsOptional()
-  cityId: string;
+  email: string;
 
   @ApiProperty()
   @IsOptional()
-  state: string;
-
-  @ApiProperty()
-  @IsOptional()
-  stateId: string;
+  birthday: Date;
 }

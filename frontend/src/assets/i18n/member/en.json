@@ -1,8 +1,23 @@
 {
     "title": "Socios",
     "btn_create_member": "Nuevo Socio",
-    "table_cell_admin_name_member": "Nombre",
-    "table_cell_admin_email_member": "Email",
+    "table_cell_name_member": "Nombre",
+    "table_cell_email_member": "Email",
+    "table_cell_id_member": "ID",
+    "table_cell_phone_member": "Teléfono",
     "table_cell_action_member": "Acciones",
-    "table_cell_empty": "No se encontraron socios"
+    "table_cell_empty": "No se encontraron socios",
+    "alert_error_updated_member": "Error al guardar el socio:",
+    "text_unknown_error_member": "Error en el servidor al guardar el socio",
+    "text_create_member": "Nuevo Socio",
+    "text_personal_info_member": "Información Personal del Socio",
+    "text_personal_info_detail_member": "Aquí puedes consultar o actualizar los datos del socio",
+    "text_personal_info_create_member": "Aquí puedes agregar un nuevo socio",
+    "text_input_name_member": "Nombre",
+    "text_input_email_member": "Correo electrónico",
+    "text_input_gender_member": "Género",
+    "text_input_address_member": "Dirección",
+    "text_input_birthday_member": "Fecha de Nacimiento",
+    "text_input_phone_member": "Teléfono",
+    "btn_save_member": "Aceptar"
 }

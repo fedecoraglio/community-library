@@ -22,7 +22,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   memberDataSource = new MatTableDataSource<MemberDto>([]);
   readonly memberTotal$ = this.memberService.memberTotal$;
-  readonly displayedColumns = ['name', 'email', 'edit'];
+  readonly displayedColumns = ['uid', 'name', 'email', 'phone', 'edit'];
 
   private readonly members$ = this.memberService.members$;
   private readonly _unsubscribe$ = new Subject<any>();
@@ -55,7 +55,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   navigateToCreateMember() {
-    this.router.navigate(['/member/create'], {
+    this.router.navigate(['/members/create'], {
       queryParams: {
         add: true,
       },
@@ -63,7 +63,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   navigateToEditMember(id: string) {
-    this.router.navigate([`/member/${id}`]);
+    this.router.navigate([`/members/${id}`]);
   }
 
   private loadMembers() {

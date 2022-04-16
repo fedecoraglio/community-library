@@ -4,10 +4,8 @@ export type CreateMemberRequestDto = Readonly<{
   name: string;
   gender: string;
   address: string;
-  city: string;
-  cityId: string;
-  state: string;
-  stateId: string;
+  birthday: Date;
+  phone: string;
 }>;
 
 export type GetMemberRequestDto = Readonly<{

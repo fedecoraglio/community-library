@@ -14,11 +14,16 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslocoModule, TRANSLOCO_SCOPE } from '@ngneat/transloco';
+
 import { MemberComponent } from './member.component';
 import { MemberListComponent } from './list/member-list.component';
+import { MemberViewComponent } from './view/member-view.component';
+import { FormatGenderPipe } from '../../core/pipe/format-gender.pipe';
+import { MatNativeDateModule } from '@angular/material/core';
 
-const peopleRoutes: Route[] = [
+const routes: Route[] = [
   {
     path: '',
     component: MemberComponent,
@@ -27,16 +32,25 @@ const peopleRoutes: Route[] = [
         path: '',
         component: MemberListComponent,
       },
+      {
+        path: 'create',
+        component: MemberViewComponent,
+      },
     ],
   },
 ];
 
 @NgModule({
-  declarations: [MemberComponent, MemberListComponent],
+  declarations: [
+    MemberComponent,
+    MemberListComponent,
+    MemberViewComponent,
+    FormatGenderPipe,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule.forChild(peopleRoutes),
+    RouterModule.forChild(routes),
     TranslocoModule,
     MatFormFieldModule,
     MatInputModule,
@@ -50,6 +64,8 @@ const peopleRoutes: Route[] = [
     MatSlideToggleModule,
     MatTabsModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'member' }],
 })

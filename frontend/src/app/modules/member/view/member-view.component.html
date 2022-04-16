@@ -1,0 +1,142 @@
+<div class="flex flex-col w-full">
+  <div class="relative flex flex-col flex-auto items-center px-12">
+    <!-- HEADER -->
+    <div class="flex flex-auto items-end w-full mt-8">
+      <div class="text-3xl font-extrabold truncate">
+        {{!createMode ? member.name : ('member.text_create_member' | transloco)}}
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="w-full max-w-3xl">
+      <form [formGroup]="memberForm">
+        <div class="mt-4 mb-8">
+          <span class="text-xl font-bold leading-8">
+            {{'member.text_personal_info_member' | transloco}}
+          </span>
+          <div class="text-md text-secondary">
+            {{!createMode ? ('member.text_personal_info_detail_member' | transloco) :
+            ('member.text_personal_info_create_member' | transloco)}}
+          </div>
+        </div>
+
+        <div class="flex flex-row mb-4">
+          <div class="w-9/12">
+            <mat-form-field class="w-full pr-4">
+              <mat-label class="required">
+                {{'member.text_input_name_member' | transloco}}
+              </mat-label>
+              <input
+                matInput
+                [formControlName]="'name'"
+                [placeholder]="'member.text_input_name_member' | transloco"
+                [spellcheck]="false"
+                autocomplete="off"
+              >
+            </mat-form-field>
+          </div>
+          <div class="w-3/12">
+            <mat-form-field>
+              <mat-label>
+                {{'member.text_input_gender_member' | transloco}}
+              </mat-label>
+              <mat-select [formControlName]="'gender'">
+                <ng-container *ngFor="let gender of genders; trackBy: trackByFn">
+                  <mat-option [value]="gender">
+                    {{ gender | formatGender}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="flex flex-row mb-4">
+          <div class="w-9/12">
+            <mat-form-field class="w-full pr-4">
+              <mat-label class="required">
+                {{'member.text_input_email_member' | transloco}}
+              </mat-label>
+              <input
+                matInput
+                [formControlName]="'email'"
+                [placeholder]="'member.text_input_email_member' | transloco"
+                autocomplete="off"
+                [spellcheck]="false"
+              >
+            </mat-form-field>
+          </div>
+          <div class="w-3/12">
+            <mat-form-field>
+              <mat-label>{{'member.text_input_birthday_member' | transloco}}</mat-label>
+              <input
+                matInput
+                [max]="maxBirthdayDate"
+                [formControlName]="'birthday'"
+                [matDatepicker]="picker"
+              >
+              <mat-hint><small>dd/mm/yyyy</small></mat-hint>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="flex flex-row mb-4">
+          <div class="w-9/12">
+            <mat-form-field class="w-full pr-4">
+              <mat-label class="required">
+                {{'member.text_input_address_member' | transloco}}
+              </mat-label>
+              <input
+                matInput
+                [formControlName]="'address'"
+                [placeholder]="'member.text_input_address_member' | transloco"
+                autocomplete="off"
+                [spellcheck]="false"
+              >
+            </mat-form-field>
+          </div>
+          <div class="w-3/12">
+            <mat-form-field class="w-full">
+              <mat-label class="required">
+                {{'member.text_input_phone_member' | transloco}}
+              </mat-label>
+              <input
+                matInput
+                [formControlName]="'phone'"
+                [placeholder]="'member.text_input_phone_member' | transloco"
+                autocomplete="off"
+                [spellcheck]="false"
+              >
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-center pt-8 pb-12">
+          <div class="pr-4">
+            <button
+              mat-stroked-button
+              [color]="'warn'"
+              (click)="navigateToMembers()"
+            >
+              Cancelar
+            </button>
+          </div>
+          <button
+            mat-stroked-button
+            (click)="!createMode ? updateMember() : createMember()"
+            [disabled]="memberForm.invalid"
+            [matTooltip]="('member.btn_save_member' | transloco)"
+          >
+            {{('member.btn_save_member' | transloco)}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

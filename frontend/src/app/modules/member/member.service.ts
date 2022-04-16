@@ -57,6 +57,7 @@ export class MemberService {
   }
 
   createMember(member: CreateMemberRequestDto): Observable<MemberDto> {
+    console.log('member', member);
     return this.http.post<MemberDto>(`v1/members`, member);
   }
 }

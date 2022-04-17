@@ -5,6 +5,7 @@ export enum ErrorCode {
   UserHasNoPartner = 'user_has_no_partner',
   UserMaxLengthInvited = 'user_max_length_invited',
   MemberCreationError = 'member_creation_error',
+  FeeCreationError = 'fee_creation_error',
   BadPaginationParameters = 'bad_pagination_parameters',
   BadFilterParameters = 'bad_filter_parameters',
   PasswordsNotMatch = 'passwords_not_match',

@@ -17,6 +17,7 @@ import { UserModule } from './features/user/user.module';
 import { AuthValidateMiddleware } from './features/auth/auth-validate.middleware';
 import { AppService } from './app.service';
 import { MemberModule } from './features/member/member.module';
+import { FeeModule } from './features/fee/fee.module';
 
 console.log(`./env/${process.env.NODE_ENV}.env.json`);
 @Module({
@@ -42,6 +43,7 @@ console.log(`./env/${process.env.NODE_ENV}.env.json`);
     }),
     UserModule,
     MemberModule,
+    FeeModule,
   ],
   controllers: [AppController],
   providers: [

@@ -7,6 +7,7 @@ import { FeeRepository } from './fee.repository';
 import { CreateFeeRequestDto } from './dtos/create-fee-request.dto';
 import { FeeDocument } from './fee.schema';
 import { GetFeeRequestDto } from './dtos/get-fee-request.dto';
+import { GetFeeMemberDto } from './dtos/get-fee-member.dto';
 
 @Injectable()
 export class FeeService {
@@ -16,12 +17,12 @@ export class FeeService {
     try {
       const dbFee = await this.feeRepository.create(fee);
 
-      return this.feeRepository.findOneById(dbFee._id);
-    } catch (error) {
+      return await this.feeRepository.findOneById(dbFee._id);
+    } catch (err) {
       throw new HttpException(
         {
           code: ErrorCode.FeeCreationError,
-          message: 'Fee cannot be created',
+          message: err.message || 'Fee cannot be created',
         },
         HttpStatus.BAD_REQUEST,
       );
@@ -41,6 +42,16 @@ export class FeeService {
   async findOneById(id: string): Promise<LeanDocument<FeeDocument>> {
     try {
       return await this.feeRepository.findOneById(id);
+    } catch {
+      return null;
+    }
+  }
+
+  async findOneByMemberMonthYear(
+    param: GetFeeMemberDto,
+  ): Promise<LeanDocument<FeeDocument>> {
+    try {
+      return await this.feeRepository.findOneByMemberMonthYear(param);
     } catch {
       return null;
     }

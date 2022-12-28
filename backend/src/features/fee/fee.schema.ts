@@ -44,6 +44,13 @@ export class Fee {
 
   @Prop({
     type: MongooseSchema.Types.Number,
+    default: AMOUNT_FEE_MONTHLY,
+    required: false,
+  })
+  amountPaid: number;
+
+  @Prop({
+    type: MongooseSchema.Types.Number,
     default: new Date().getMonth(),
     required: true,
   })
@@ -71,8 +78,7 @@ export class Fee {
 
   @Prop({
     type: MongooseSchema.Types.Date,
-    default: new Date(),
-    required: true,
+    required: false,
   })
   paidAt: Date;
 

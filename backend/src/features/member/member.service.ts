@@ -6,7 +6,6 @@ import { ErrorCode } from '../../core/errors/error-code';
 import { MemberRepository } from './member.repository';
 import { CreateMemberRequestDto } from './dtos/create-member-request.dto';
 import { MemberDocument } from './member.schema';
-import { MemberDto } from './dtos/member.dto';
 import { UpdateMemberRequestDto } from './dtos/update-member-request.dto';
 import { GetMemberRequestDto } from './dtos/get-member-request.dto';
 

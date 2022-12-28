@@ -64,6 +64,9 @@ export class MemberRepository {
         ],
       };
     }
+    if (params?.active) {
+      filter = { ...filter, active: params.active };
+    }
     const members = await this.memberModel
       .find(filter)
       .skip(skip)

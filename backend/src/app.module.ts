@@ -18,6 +18,8 @@ import { AuthValidateMiddleware } from './features/auth/auth-validate.middleware
 import { AppService } from './app.service';
 import { MemberModule } from './features/member/member.module';
 import { FeeModule } from './features/fee/fee.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TaskService } from './task.service';
 
 console.log(`./env/${process.env.NODE_ENV}.env.json`);
 @Module({
@@ -41,6 +43,7 @@ console.log(`./env/${process.env.NODE_ENV}.env.json`);
       }),
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
     UserModule,
     MemberModule,
     FeeModule,
@@ -62,6 +65,7 @@ console.log(`./env/${process.env.NODE_ENV}.env.json`);
     AuthService,
     AppService,
     JwtStrategy,
+    TaskService,
   ],
 })
 export class AppModule {

@@ -1,9 +1,11 @@
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
   Param,
+  Post,
   Query,
 } from '@nestjs/common';
 import { instanceToPlain } from 'class-transformer';
@@ -13,6 +15,7 @@ import {
   Pagination,
   PaginationOptions,
 } from '../../core/pagination-options/pagination-options';
+import { CreateFeeRequestDto } from './dtos/create-fee-request.dto';
 import { FeeDto } from './dtos/fee.dto';
 import { GetFeeRequestDto } from './dtos/get-fee-request.dto';
 import { GetFeeResponseDto } from './dtos/get-fee-response.dto';
@@ -33,6 +36,11 @@ export class FeeController {
       fees: instanceToPlain(dbData.fees.map((fee) => new FeeDto(fee))),
       total: dbData.total,
     } as GetFeeResponseDto;
+  }
+
+  @Post()
+  async create(@Body() fee: CreateFeeRequestDto): Promise<FeeDto> {
+    return new FeeDto(await this.feeService.create(fee));
   }
 
   @Get('/:id')

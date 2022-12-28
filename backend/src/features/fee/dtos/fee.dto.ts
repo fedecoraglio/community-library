@@ -19,7 +19,7 @@ export class FeeDto {
   expireAt: Date;
   @ApiProperty()
   paidAt: Date;
-  @ApiProperty()
+  @ApiProperty()  
   createdAt: Date;
 
   constructor(fee: LeanDocument<FeeDocument>) {
